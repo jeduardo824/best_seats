@@ -16,7 +16,7 @@ module BestSeats
                                               .group_by(&:row)
 
       clean_rows_without_enough_seats
-      return not_enough_grouped_seats if available_seats.empty?
+      return not_enough_seats if available_seats.empty?
       get_best_grouped_seats
     end
 
@@ -25,8 +25,8 @@ module BestSeats
 
       delegate :available_seats, to: :venue, prefix: true
 
-      def not_enough_grouped_seats
-        { error: "Not enough grouped seats available." }
+      def not_enough_seats
+        []
       end
 
       def clean_rows_without_enough_seats
@@ -41,7 +41,7 @@ module BestSeats
           return best_seats if best_seats
         end
 
-        not_enough_grouped_seats
+        not_enough_seats
       end
 
       def find_row_best_seats(seats_array)

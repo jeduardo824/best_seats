@@ -7,10 +7,6 @@ RSpec.describe BestSeats::GroupedFinder, type: :service do
     let(:venue) { create(:venue, rows: 5, columns: 5) }
 
     context "without enough grouped seats available" do
-      let(:expected_message) do
-        { error: "Not enough grouped seats available." }
-      end
-
       subject { described_class.call(venue: venue, seats_quantity: 2) }
 
       before do
@@ -19,7 +15,7 @@ RSpec.describe BestSeats::GroupedFinder, type: :service do
       end
 
       it "returns an error message" do
-        expect(subject).to eq(expected_message)
+        expect(subject).to eq([])
       end
     end
 

@@ -17,11 +17,7 @@ module BestSeats
     def call
       @finder_result = call_finder_service
 
-      if finder_result.kind_of?(Array)
-        { json: return_best_seats, status: :ok }
-      else
-        { json: finder_result, status: :not_found }
-      end
+      finder_result.any? ? return_best_seats : return_error
     end
 
     private
@@ -47,11 +43,30 @@ module BestSeats
       end
 
       def return_best_seats
-        { success: "The best seats available are: #{best_seats_labels}" }
+        {
+          json: {
+            success: "The best seats available are: #{best_seats_labels}",
+            best_seats: best_seats_list
+          },
+          status: :ok
+        }
+      end
+
+      def best_seats_list
+        finder_result.map { |seat| seat.attributes.except("created_at", "updated_at") }
       end
 
       def best_seats_labels
         finder_result.pluck(:label)
+      end
+
+      def return_error
+        {
+          json: {
+            error: "The server can't find the best seats. Check your data and try again",
+          },
+          status: :not_found
+        }
       end
   end
 end

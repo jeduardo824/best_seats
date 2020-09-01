@@ -27,7 +27,7 @@ module BestSeats
       end
 
       def not_enough_seats
-        { error: "Not enough seats available." }
+        []
       end
 
       def available_seats

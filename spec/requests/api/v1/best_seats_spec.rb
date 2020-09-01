@@ -3,6 +3,8 @@
 require "rails_helper"
 
 RSpec.describe "/api/v1/venues/:venue_id/best_seats", type: :request do
+  include BestSeatsSpecHelper
+
   describe "GET /find" do
     context "with valid parameters" do
       let(:venue) { create(:venue, rows: 5, columns: 5) }
@@ -21,9 +23,7 @@ RSpec.describe "/api/v1/venues/:venue_id/best_seats", type: :request do
           let(:seats_quantity) { 1 }
           let(:group_seats) { false }
           let(:expected_response) do
-            {
-              success: "The best seats available are: [\"#{available_seat.label}\"]"
-            }
+            success_response([available_seat])
           end
 
           before do
@@ -36,18 +36,13 @@ RSpec.describe "/api/v1/venues/:venue_id/best_seats", type: :request do
           end
 
           it "returns the correct message" do
-            expect(JSON.parse(response.body)).to eq(expected_response.stringify_keys)
+            expect(JSON.parse(response.body)).to eq(expected_response.deep_stringify_keys)
           end
         end
 
         context "when venue has not seat available" do
           let(:seats_quantity) { 1 }
           let(:group_seats) { false }
-          let(:expected_response) do
-            {
-              error: "Not enough seats available."
-            }
-          end
 
           before do
             subject
@@ -58,7 +53,7 @@ RSpec.describe "/api/v1/venues/:venue_id/best_seats", type: :request do
           end
 
           it "returns the correct message" do
-            expect(JSON.parse(response.body)).to eq(expected_response.stringify_keys)
+            expect(JSON.parse(response.body)).to eq(failure_response.stringify_keys)
           end
         end
       end
@@ -70,13 +65,8 @@ RSpec.describe "/api/v1/venues/:venue_id/best_seats", type: :request do
             let!(:available_seat_2) { create(:available_seat, venue: venue, row: 3, column: 1) }
             let(:seats_quantity) { 2 }
             let(:group_seats) { false }
-            let(:seats_array) do
-              "[\"#{available_seat_1.label}\", \"#{available_seat_2.label}\"]"
-            end
             let(:expected_response) do
-              {
-                success: "The best seats available are: #{seats_array}"
-              }
+              success_response([available_seat_1, available_seat_2])
             end
 
             before do
@@ -89,18 +79,13 @@ RSpec.describe "/api/v1/venues/:venue_id/best_seats", type: :request do
             end
 
             it "returns the correct message" do
-              expect(JSON.parse(response.body)).to eq(expected_response.stringify_keys)
+              expect(JSON.parse(response.body)).to eq(expected_response.deep_stringify_keys)
             end
           end
 
           context "when venue has not seats available" do
             let(:seats_quantity) { 2 }
             let(:group_seats) { false }
-            let(:expected_response) do
-              {
-                error: "Not enough seats available."
-              }
-            end
 
             before do
               create(:available_seat, venue: venue, row: 5, column: 1)
@@ -112,7 +97,7 @@ RSpec.describe "/api/v1/venues/:venue_id/best_seats", type: :request do
             end
 
             it "returns the correct message" do
-              expect(JSON.parse(response.body)).to eq(expected_response.stringify_keys)
+              expect(JSON.parse(response.body)).to eq(failure_response.stringify_keys)
             end
           end
         end
@@ -123,13 +108,8 @@ RSpec.describe "/api/v1/venues/:venue_id/best_seats", type: :request do
             let!(:available_seat_2) { create(:available_seat, venue: venue, row: 1, column: 3) }
             let(:seats_quantity) { 2 }
             let(:group_seats) { true }
-            let(:seats_array) do
-              "[\"#{available_seat_1.label}\", \"#{available_seat_2.label}\"]"
-            end
             let(:expected_response) do
-              {
-                success: "The best seats available are: #{seats_array}"
-              }
+              success_response([available_seat_1, available_seat_2])
             end
 
             before do
@@ -142,18 +122,13 @@ RSpec.describe "/api/v1/venues/:venue_id/best_seats", type: :request do
             end
 
             it "returns the correct message" do
-              expect(JSON.parse(response.body)).to eq(expected_response.stringify_keys)
+              expect(JSON.parse(response.body)).to eq(expected_response.deep_stringify_keys)
             end
           end
 
           context "when venue has not seats available" do
             let(:seats_quantity) { 2 }
             let(:group_seats) { true }
-            let(:expected_response) do
-              {
-                error: "Not enough grouped seats available."
-              }
-            end
 
             before do
               create(:available_seat, venue: venue, row: 5, column: 1)
@@ -165,18 +140,13 @@ RSpec.describe "/api/v1/venues/:venue_id/best_seats", type: :request do
             end
 
             it "returns the correct message" do
-              expect(JSON.parse(response.body)).to eq(expected_response.stringify_keys)
+              expect(JSON.parse(response.body)).to eq(failure_response.stringify_keys)
             end
           end
 
           context "when venue has seats available but they are not grouped" do
             let(:seats_quantity) { 2 }
             let(:group_seats) { true }
-            let(:expected_response) do
-              {
-                error: "Not enough grouped seats available."
-              }
-            end
 
             before do
               create(:available_seat, venue: venue, row: 1, column: 3)
@@ -190,7 +160,7 @@ RSpec.describe "/api/v1/venues/:venue_id/best_seats", type: :request do
             end
 
             it "returns the correct message" do
-              expect(JSON.parse(response.body)).to eq(expected_response.stringify_keys)
+              expect(JSON.parse(response.body)).to eq(failure_response.stringify_keys)
             end
           end
         end
