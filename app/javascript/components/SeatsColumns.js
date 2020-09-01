@@ -6,7 +6,7 @@ const Columns = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 45px;
-  margin-right: 22px;
+  margin-right: 45px;
 `
 
 const SeatsColumns = ({

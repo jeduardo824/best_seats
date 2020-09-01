@@ -12,6 +12,16 @@ const MainDiv = styled.div`
   justify-content: center;
 `
 
+const StageDiv = styled(MainDiv)`
+  background-color: #999999;
+`
+
+const ReloadButton = styled.button`
+  margin: 10px 165px;
+  position: relative;
+  right: 8%;
+`
+
 const SeatsSelector = ({ params }) => {
   const [availableSeats, setAvailableSeats] = useState([]);
   const [bestSeats, setBestSeats] = useState([]);
@@ -31,6 +41,7 @@ const SeatsSelector = ({ params }) => {
           venueParams={params}
         />
       }
+      <StageDiv>STAGE</StageDiv>
       <SeatsColumns
         availableSeats={availableSeats}
         bestSeats={bestSeats}
@@ -38,6 +49,9 @@ const SeatsSelector = ({ params }) => {
         setAvailableSeats={setAvailableSeats}
         venueId={venueId}
       />
+      <ReloadButton onClick={() => window.location.reload(false)}>
+        Create new Venue
+      </ReloadButton>
     </MainDiv>
   )
 }

@@ -16,7 +16,7 @@ const StyledTitle = styled.h3`
 `
 
 const StyledButton = styled.button`
-  margin-top: 10px;
+  margin: 10px 0;
 `
 
 const AvailableSeatsDisplay = ({ availableSeats, setVenueId, venueParams }) => {

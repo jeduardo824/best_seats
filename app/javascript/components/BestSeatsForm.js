@@ -23,10 +23,6 @@ const StyledButton = styled.input`
   margin: 10px 30%;
 `
 
-const ReloadButton = styled.button`
-  margin: 10px;
-`
-
 const BestSeatsForm = ({ setBestSeats, venueId }) => {
   const { register, handleSubmit, errors } = useForm();
 
@@ -72,9 +68,6 @@ const BestSeatsForm = ({ setBestSeats, venueId }) => {
         </div>
         <StyledButton value="Find!" type="submit" />
       </form>
-      <ReloadButton onClick={() => window.location.reload(false)}>
-        Create new Venue
-      </ReloadButton>
     </MainDiv>
   )
 }
