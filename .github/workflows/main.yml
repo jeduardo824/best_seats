@@ -61,7 +61,9 @@ jobs:
           bundler exec rails db:create
           bundler exec rails db:migrate
       - name: Run tests
-        run: bundler exec rspec
+        run: |
+          bundler exec rspec
+          yarn jest
       - name: Upload coverage results
         uses: actions/upload-artifact@master
         if: always()
