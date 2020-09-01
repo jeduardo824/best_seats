@@ -28,4 +28,5 @@ const App = () => {
   )
 }
 
+StyledTitle.displayName = "StyledTitle";
 export default App;
