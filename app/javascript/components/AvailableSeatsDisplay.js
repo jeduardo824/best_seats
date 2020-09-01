@@ -19,7 +19,7 @@ const StyledButton = styled.button`
   margin-top: 10px;
 `
 
-const AvailableSeatsDisplay = ({ venueParams, setVenueId, availableSeats }) => {
+const AvailableSeatsDisplay = ({ availableSeats, setVenueId, venueParams }) => {
   const humanizedSeats = availableSeats.map((seat) => {
     return `${seat.row}${seat.column} `;
   });
@@ -38,10 +38,8 @@ const AvailableSeatsDisplay = ({ venueParams, setVenueId, availableSeats }) => {
 
   return(
     <MainDiv>
-      <div>
-        {
-          humanizedSeats.sort()
-        }
+      <div className="humanized-seats">
+        { humanizedSeats.sort() }
       </div>
       {
         _.isEmpty(availableSeats) ?
@@ -54,4 +52,6 @@ const AvailableSeatsDisplay = ({ venueParams, setVenueId, availableSeats }) => {
   )
 }
 
+StyledTitle.displayName = "StyledTitle";
+StyledButton.displayName = "StyledButton";
 export default AvailableSeatsDisplay;

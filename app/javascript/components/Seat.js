@@ -80,4 +80,5 @@ const Seat = ({
   )
 }
 
+SeatDiv.displayName = "SeatDiv";
 export default Seat;

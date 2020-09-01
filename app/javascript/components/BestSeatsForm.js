@@ -79,4 +79,6 @@ const BestSeatsForm = ({ setBestSeats, venueId }) => {
   )
 }
 
+StyledLabel.displayName = "StyledLabel";
+StyledButton.displayName = "StyledButton";
 export default BestSeatsForm;
