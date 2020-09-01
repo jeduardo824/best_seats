@@ -1,9 +1,13 @@
 # Best Seats App
 
+![Gif](https://media.giphy.com/media/SvokzrsLVjdr1mGZOd/giphy.gif)
+
 - Dependecies:
 1. PostgreSQL >= 9.3
 2. Ruby 2.7.1
 3. Yarn 1.22.4 (but it may work with other versions)
+
+- Demo: [Demo](https://www.loom.com/share/052a91aea68b4342aeffe82e9e54dfcc)
 
 ## Setup Your Local Environment
 
@@ -47,4 +51,75 @@ You can obtain more information about those steps [here](https://www.postgresql.
 
 ## Tests
 
-You can run the tests with `bundle exec rspec`. If you are using Docker, you should run `docker-compose run --rm bundle exec rspec`
+You can run the tests with `bundle exec rspec`. If you are using Docker, you should run `docker-compose run --rm bundle exec rspec`. 
+
+## API Documentation
+### Create Venue
+Request: `POST /api/v1/venues`  
+Body:  
+```json
+{
+    "venue": {
+        "title": "My Title",
+        "rows": 10,
+        "columns": 50,
+        "available_seats": [
+            {
+                "row": "a",
+                "column": 1
+            },
+            {
+                "row": "b",
+                "column": 5
+            },
+            {
+                "row": "h",
+                "column": 7
+            }
+        ]
+    }
+}
+```
+
+Response:
+```json
+{
+    "message": "Venue created successfully.",
+    "venue_id": 34
+}
+```
+
+Status: `201`
+
+### Get Best Seats
+Request: `GET /api/v1/venues/:venue_id/best_seats`  
+Parameters:  
+1. `seats_quantity`: Desired quantity of seats (Integer)
+2. `group_seats`: If seats should be grouped or not (Boolean) 
+  
+Ex: `/api/v1/venues/34/best_seats?seats_quantity=2&group_seats=false`
+
+Response:
+```json
+{
+    "success": "The best seats available are: [\"A1\", \"B5\"]",
+    "best_seats": [
+        {
+            "id": 216,
+            "row": 1,
+            "column": 1,
+            "label": "A1",
+            "venue_id": 34
+        },
+        {
+            "id": 217,
+            "row": 2,
+            "column": 5,
+            "label": "B5",
+            "venue_id": 34
+        }
+    ]
+}
+```
+
+Status: `200`
