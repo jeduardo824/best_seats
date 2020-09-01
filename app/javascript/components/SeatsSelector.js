@@ -56,4 +56,6 @@ const SeatsSelector = ({ params }) => {
   )
 }
 
+ReloadButton.displayName = "ReloadButton";
+StageDiv.displayName = "StageDiv";
 export default SeatsSelector;
